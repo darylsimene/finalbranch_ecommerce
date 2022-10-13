@@ -34,7 +34,7 @@ const deleteUsers = (req, res, next) => {
 }
 
 
-// For ‘/:itemId’ endpoint:
+// For ‘/:userId’ endpoint:
 
 // getUser
 const getUser = (req, res, next) => {
@@ -47,7 +47,7 @@ const getUser = (req, res, next) => {
         })
 }
 
-// updateItem
+// updateUser
 const updateUser = (req, res, next) => {
     res
         .status(200)
@@ -58,7 +58,7 @@ const updateUser = (req, res, next) => {
         })
 }
 
-// deleteItem
+// deleteUser
 const deleteUser = (req, res, next) => {
     res
         .status(200)
