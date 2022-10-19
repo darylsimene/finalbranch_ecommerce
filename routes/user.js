@@ -10,14 +10,17 @@ const { getUsers,
     deleteUser
 } = require('../controllers/userController');
 
-router.route('/')
-    .get(getUsers)
-    .post(postUser)
-    .delete(deleteUsers)
+const reqRecievedLogger = require('../middlewares/reqReceivedLogger');
+const {userValidator} = require('../middlewares/utils/validator');
 
-router.route('/:userID')
-    .get(getUser)
-    .put(updateUser)
-    .delete(deleteUser)
+router.route('/')
+    .get(reqRecievedLogger, getUsers)
+    .post(reqRecievedLogger, userValidator, postUser)
+    .delete(reqRecievedLogger, deleteUsers)
+
+router.route('/:userId')
+    .get(reqRecievedLogger, getUser)
+    .put(reqRecievedLogger, updateUser)
+    .delete(reqRecievedLogger, deleteUser)
 
 module.exports = router;

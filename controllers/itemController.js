@@ -1,74 +1,118 @@
-// For ‘/’ endpoint:
+const Item = require('../models/Item')
 
-// getItem
-const getItems = (req, res, next) => {
-    res
+const getItems = async (req, res, next) => {
+    // if(Object.keys(req.query).length){
+    //     //query parameter
+
+    //     const {
+    //         gender,
+    //         price,
+    //         isClearance,
+    //         item,
+    //         colors,
+    //         sizes
+    //     } = req.query
+
+    //     const filter = []
+
+    //     if(gender) filter.push(gender);
+    //     if(price) filter.push(price);
+    //     if(isClearance) filter.push(isClearance);
+    //     if(item) filter.push(item);
+    //     if(colors) filter.push(colors);
+    //     if(sizes) filter.push(sizes);
+
+    //     for (let i = 0; i < filter.length; i++){
+    //         console.log(`Searching item(s) by: ${filter[i]}`)
+    //     }
+    // }
+
+    try{
+        const result = await Item.find();
+
+        res
         .status(200)
         .setHeader('Content-Type', 'application/json')
-        .json({
-            success: true,
-            msg: 'Show me all ITEMS'
-        })
+        .json(result)
+    } catch (err) {
+        throw new Error(`Error retrieving items: ${err.message}`); 
+    }
+
+    
 }
 
 // postItem
-const postItems = (req, res, next) => {
-    res
+const postItems = async (req, res, next) => {
+    try{
+        const result = await Item.create(req.body)
+
+        res
         .status(201)
-        .setHeader('Content-Type', 'application/json')
-        .json({
-            success: true,
-            msg: 'Create new ITEM'
-        })
+        .setHeader('Content-Type', 'applicaton/json')
+        .json(result)
+
+    } catch (err){
+        throw new Error(`Error posting a new item: ${err.message}`)
+
+    }
 }
 
 // deleteItems
-const deleteItems = (req, res, next) => {
-    res
-        .status(201)
-        .setHeader('Content-Type', 'application/json')
-        .json({
-            success: true,
-            msg: 'Delete all ITEMS.'
-        })
+const deleteItems = async (req, res, next) => {
+    try{
+        await Item.deleteMany();
+
+        res
+        .status(200)
+        .setHeader('Content-Type', 'applicaton/json')
+        .json({ success: true, msg: 'succesfully deleted all items!' })
+
+    } catch(err){
+        throw new Error(`Error deleting all items: ${err.message}`)
+    }
 }
 
+const getItem = async(req, res, next) => {
+    try{
+        const result = await Item.findById(req.params.itemId)
 
-// For ‘/:itemId’ endpoint:
-
-// getItem
-const getItem = (req, res, next) => {
-    res
+        res
         .status(200)
         .setHeader('Content-Type', 'application/json')
-        .json({
-            success: true,
-            msg: `Show me one ITEM with id: ${req.params.itemID}`
-        })
+        .json(result)
+
+    } catch (err){
+        throw new Error(`Error getting item id of ${req.params.itemId}: ${err.message}`)
+    }
 }
 
-// updateItem
-const updateItem = (req, res, next) => {
-    res
+const updateItem = async (req, res, next) => {
+    try {
+        const result = await Item.findByIdAndUpdate(req.params.itemId, {
+            $set: req.body
+        }, {new: true }); 
+
+        res
         .status(200)
         .setHeader('Content-Type', 'application/json')
-        .json({
-            success: true,
-            msg: `Update ITEMS with id: ${req.params.itemID}`
-        })
+        .json(result)
+    } catch (err) {
+        throw new Error(`Error updating item with id of ${req.params.itemId}: ${err.message}`)
+    }
 }
 
-// deleteItem
-const deleteItem = (req, res, next) => {
-    res
+const deleteItem = async (req, res, next) => {
+    try {
+        await Item.findByIdAndDelete(req.params.itemId);
+
+        res
         .status(200)
         .setHeader('Content-Type', 'application/json')
-        .json({
-            success: true,
-            msg: `Delete ITEM with id: ${req.params.itemID}`
-        })
+        .json({ success: true, msg: `item with id ${req.params.itemId} has been deleted!` })
+    } catch (err) {
+        throw new Error(`Erorr deleting item with id of ${req.params.itemId}: ${err.message}`)
+    }
 }
-
 
 module.exports = {
     getItems,

@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
     console.log(err.stack)
 
     res
-        .status(500)
+        .status(error.statusCode || 500)
         .setHeader('Content-Type', 'application/json')
         .json({
             success: false,

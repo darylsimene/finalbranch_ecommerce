@@ -1,22 +1,26 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express'); 
+const router = express.Router(); 
 
+const { 
+      getCategories, 
+      postCategory, 
+      deleteCategories, 
+      getCategory, 
+      updateCategory, 
+      deleteCategory
+} = require('../controllers/categoryController'); 
 
-const { getCategories, postCategory,
-    deleteCategories,
-    getCategory,
-    updateCategory,
-    deleteCategory
-} = require('../controllers/categoryController');
+const reqRecievedLogger = require('../middlewares/reqReceivedLogger');
+const {categoryValidator} = require('../middlewares/utils/validator');
 
 router.route('/')
-    .get(getCategories)
-    .post(postCategory)
-    .delete(deleteCategories)
+      .get(reqRecievedLogger, getCategories)
+      .post(reqRecievedLogger, categoryValidator, postCategory)
+      .delete(reqRecievedLogger, deleteCategories)
 
-router.route('/:categoryID')
-    .get(getCategory)
-    .put(updateCategory)
-    .delete(deleteCategory)
+router.route('/:categoryId')
+      .get(reqRecievedLogger, getCategory)
+      .put(reqRecievedLogger, updateCategory)
+      .delete(reqRecievedLogger, deleteCategory)
 
 module.exports = router;

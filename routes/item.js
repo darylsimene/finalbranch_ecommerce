@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const reqReceivedLogger = require('../middlewares/reqReceivedLogger')
 
 const { getItems,
     postItems,
@@ -10,14 +10,17 @@ const { getItems,
     deleteItem
 } = require('../controllers/itemController');
 
-router.route('/')
-    .get(getItems)
-    .post(postItems)
-    .delete(deleteItems)
+const reqRecievedLogger = require('../middlewares/reqReceivedLogger');
+const {itemValidator} = require('../middlewares/utils/validator');
 
-router.route('/:itemID')
-    .get(getItem)
-    .put(updateItem)
-    .delete(deleteItem)
+router.route('/')
+    .get(reqRecievedLogger, getItems)
+    .post(reqRecievedLogger, itemValidator, postItems)
+    .delete(reqRecievedLogger, deleteItems)
+
+router.route('/:itemId')
+    .get(reqRecievedLogger, getItem)
+    .put(reqRecievedLogger, updateItem)
+    .delete(reqRecievedLogger, deleteItem)
 
 module.exports = router;
