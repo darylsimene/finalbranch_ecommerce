@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const CategorySchema = new Schema ({
-    categoryName: {
+    category: {
         type: String,
         required: [true, 'Please add a category'],
         unique: true,

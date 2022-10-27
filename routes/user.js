@@ -7,20 +7,30 @@ const { getUsers,
     deleteUsers,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    login
 } = require('../controllers/userController');
 
-const reqRecievedLogger = require('../middlewares/reqReceivedLogger');
-const {userValidator} = require('../middlewares/utils/validator');
+const reqReceivedLogger = require('../middlewares/reqReceivedLogger');
+const {
+    userValidator,
+    adminValidator,
+} = require('../middlewares/utils/validator');
+const protectedRoute = require('../middlewares/auth')
+
 
 router.route('/')
-    .get(reqRecievedLogger, getUsers)
-    .post(reqRecievedLogger, userValidator, postUser)
-    .delete(reqRecievedLogger, deleteUsers)
+    .get(reqReceivedLogger, adminValidator, getUsers)
+    .post(reqReceivedLogger, userValidator, postUser)
+    .delete(reqReceivedLogger, protectedRoute, deleteUsers)
+
+router
+.route('/login')
+.post(reqReceivedLogger, login)
 
 router.route('/:userId')
-    .get(reqRecievedLogger, getUser)
-    .put(reqRecievedLogger, updateUser)
-    .delete(reqRecievedLogger, deleteUser)
+    .get(reqReceivedLogger, getUser)
+    .put(reqReceivedLogger, protectedRoute, updateUser)
+    .delete(reqReceivedLogger, protectedRoute, deleteUser)
 
 module.exports = router;

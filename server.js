@@ -8,6 +8,8 @@ const category = require('./routes/category')
 const item = require('./routes/item')
 const user = require('./routes/user')
 const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser')
+const fileUpload = require('express-fileupload')
 
 dotenv.config({ path: './config/config.env' })
 
@@ -22,6 +24,14 @@ if (process.env.NODE_ENV === 'development') {
 
 // read/parse JSON data
 app.use(bodyParser.json());
+
+// app.use(bodyParser.urlencoded({extended: false}))
+
+//parse cookies
+app.use(cookieParser());
+
+//for file upload
+app.use(fileUpload());
 
 //use our logger
 app.use(logger)

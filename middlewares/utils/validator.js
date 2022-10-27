@@ -1,7 +1,7 @@
 const categoryValidator = (req, res, next) => {
     if (req.body) {
         if (
-            !req.body.categoryName || 
+            !req.body.category || 
             !req.body.gender) {
             res
             .status(400)
@@ -60,9 +60,26 @@ const userValidator = (req, res, next) => {
     }
 }
 
+const adminValidator = (req, res, next) => {
+    if(req.user.admin){
+        next()
+    } else{
+        res
+        .status(403)
+        .setHeader('Content-Type','application/json')
+        .json({
+            success:false,
+            msg: `UNAUTHORIZED ACCESS`
+        })
+    }
+
+    
+}
+
 module.exports = {
     categoryValidator, 
     itemValidator, 
-    userValidator
+    userValidator,
+    adminValidator
 };
 
