@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const reqReceivedLogger = require('../middlewares/reqReceivedLogger')
 
 const { getItems,
     postItems,
@@ -17,36 +16,36 @@ const { getItems,
     postItemImage
 } = require('../controllers/itemController');
 
-const reqRecievedLogger = require('../middlewares/reqReceivedLogger');
+const reqReceivedLogger = require('../middlewares/reqReceivedLogger');
 const {itemValidator} = require('../middlewares/utils/validator');
 const protectedRoute = require('../middlewares/auth')
 router
 .route('/')
-.get(reqRecievedLogger, getItems)
-.post(reqRecievedLogger,protectedRoute, itemValidator, postItems)
-.delete(reqRecievedLogger,protectedRoute,  deleteItems)
+.get(reqReceivedLogger, getItems)
+.post(reqReceivedLogger,protectedRoute, itemValidator, postItems)
+.delete(reqReceivedLogger,protectedRoute,  deleteItems)
 
 router
 .route('/:itemId')
-.get(reqRecievedLogger, getItem)
-.put(reqRecievedLogger, protectedRoute, updateItem)
-.delete(reqRecievedLogger, protectedRoute, deleteItem)
+.get(reqReceivedLogger, getItem)
+.put(reqReceivedLogger, protectedRoute, updateItem)
+.delete(reqReceivedLogger, protectedRoute, deleteItem)
 
 router
 .route('/:itemId/ratings')
-.get(reqRecievedLogger, getItemRatings)
-.post(reqRecievedLogger, protectedRoute, postItemRating)
-.delete(reqRecievedLogger,protectedRoute, deleteItemRatings)
+.get(reqReceivedLogger, getItemRatings)
+.post(reqReceivedLogger, protectedRoute, postItemRating)
+.delete(reqReceivedLogger,protectedRoute, deleteItemRatings)
 
 router
 .route('/:itemId/ratings/:ratingId')
-.get(reqRecievedLogger, getItemRating)
-.put(reqRecievedLogger, protectedRoute, updateItemRating)
+.get(reqReceivedLogger, getItemRating)
+.put(reqReceivedLogger, protectedRoute, updateItemRating)
 .delete(reqReceivedLogger, protectedRoute, deleteItemRating)
 
 router
 .route('/:itemId/image')
-.post(reqRecievedLogger, protectedRoute, postItemImage)
+.post(reqReceivedLogger, protectedRoute, postItemImage)
 
 
 module.exports = router;

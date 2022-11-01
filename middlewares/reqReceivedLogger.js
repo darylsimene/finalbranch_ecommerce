@@ -1,8 +1,8 @@
-const reqRecievedLogger = (req, res, next) => {
+const reqReceivedLogger = (req, res, next) => {
     if (req) {
-        console.log(`Recieved request from client!`)
+        console.log(`Received request from client!`)
     }
     next(); 
 }
 
-module.exports = reqRecievedLogger
+module.exports = reqReceivedLogger
