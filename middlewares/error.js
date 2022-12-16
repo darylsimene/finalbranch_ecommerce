@@ -3,15 +3,14 @@ const errorHandler = (err, req, res, next) => {
 
     error.message = err.message;
 
-    console.log(err.stack)
+    console.log(err.stack);
 
-    res
-        .status(error.statusCode || 500)
-        .setHeader('Content-Type', 'application/json')
+    res.status(error.statusCode || 500)
+        .setHeader("Content-Type", "application/json")
         .json({
             success: false,
-            error: error.message || 'Server Error'
-        })
-}
+            error: error.message || "Server Error",
+        });
+};
 
 module.exports = errorHandler;
